@@ -1,0 +1,13 @@
+{
+  "name": "chibireact-dom",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@chibireact/reconciler": "workspace:*",
+    "chibireact": "workspace:*"
+  },
+  "exports": {
+    "./client": "./src/client.ts"
+  }
+}

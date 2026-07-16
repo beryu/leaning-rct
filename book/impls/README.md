@@ -1,0 +1,3 @@
+# Chapter implementations
+
+各ディレクトリは章の中心概念だけを取り出した読み切りのチェックポイントです。依存する概念を増やさず比較できるよう、短いTypeScriptとして保存しています。ブラウザで動く統合済み完成版はルートの`packages`と`examples/playground`を使用してください。

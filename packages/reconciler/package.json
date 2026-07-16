@@ -1,0 +1,13 @@
+{
+  "name": "@chibireact/reconciler",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@chibireact/scheduler": "workspace:*",
+    "chibireact": "workspace:*"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
