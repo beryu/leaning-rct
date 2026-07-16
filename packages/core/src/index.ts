@@ -1,8 +1,8 @@
 export { createElement, Fragment } from "./element";
 export { useEffect, useState } from "./hooks";
 export type {
-  ChibiReactElement,
-  ChibiReactNode,
+  RctElement,
+  RctNode,
   DependencyList,
   Dispatch,
   EffectCallback,

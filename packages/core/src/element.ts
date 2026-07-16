@@ -1,14 +1,14 @@
 import {
-  CHIBI_ELEMENT,
+  RCT_ELEMENT,
   Fragment,
-  type ChibiReactElement,
-  type ChibiReactNode,
+  type RctElement,
+  type RctNode,
   type ElementType,
   type Key,
 } from "./types";
 
-function flattenChildren(children: ChibiReactNode[]): ChibiReactNode[] {
-  const normalized: ChibiReactNode[] = [];
+function flattenChildren(children: RctNode[]): RctNode[] {
+  const normalized: RctNode[] = [];
   for (const child of children) {
     if (Array.isArray(child)) normalized.push(...flattenChildren(child));
     else if (child !== true && child !== false) normalized.push(child);
@@ -19,10 +19,10 @@ function flattenChildren(children: ChibiReactNode[]): ChibiReactNode[] {
 export function createElement<P extends Record<string, unknown>>(
   type: ElementType,
   config: (P & { key?: Key }) | null,
-  ...children: ChibiReactNode[]
-): ChibiReactElement<P> {
+  ...children: RctNode[]
+): RctElement<P> {
   const props = { ...(config ?? {}) } as P & {
-    children?: ChibiReactNode;
+    children?: RctNode;
     key?: Key;
   };
   const key = props.key == null ? null : String(props.key);
@@ -32,21 +32,21 @@ export function createElement<P extends Record<string, unknown>>(
   if (normalized.length === 1) props.children = normalized[0];
   if (normalized.length > 1) props.children = normalized;
 
-  return { $$typeof: CHIBI_ELEMENT, type, key, props };
+  return { $$typeof: RCT_ELEMENT, type, key, props };
 }
 
 export function jsx(
   type: ElementType,
   config: Record<string, unknown> & { key?: Key },
   maybeKey?: Key,
-): ChibiReactElement {
+): RctElement {
   const { key: configKey, ...props } = config;
   return {
-    $$typeof: CHIBI_ELEMENT,
+    $$typeof: RCT_ELEMENT,
     type,
     key: maybeKey ?? configKey ?? null,
     props,
-  } as ChibiReactElement;
+  } as RctElement;
 }
 
 export { Fragment };

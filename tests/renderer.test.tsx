@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useState } from "chibireact";
-import { createRoot } from "chibireact-dom/client";
+import { Fragment, useEffect, useState } from "@leaning-rct/core";
+import { createRoot } from "@leaning-rct/dom/client";
 
 const tick = async (count = 1) => {
   for (let index = 0; index < count; index += 1) await Promise.resolve();

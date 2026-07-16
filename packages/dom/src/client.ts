@@ -2,11 +2,11 @@ import {
   createReconcilerRoot,
   type HostConfig,
   type ReconcilerRoot,
-} from "@chibireact/reconciler";
-import type { ChibiReactNode } from "chibireact";
+} from "@leaning-rct/reconciler";
+import type { RctNode } from "@leaning-rct/core";
 
 export interface Root {
-  render(node: ChibiReactNode): void;
+  render(node: RctNode): void;
   unmount(): void;
 }
 

@@ -7,19 +7,17 @@ const fromRoot = (path: string) =>
 export default defineConfig({
   resolve: {
     alias: {
-      "chibireact/jsx-dev-runtime": fromRoot(
-        "./packages/chibireact/src/jsx-runtime.ts",
+      "@leaning-rct/core/jsx-dev-runtime": fromRoot(
+        "./packages/core/src/jsx-runtime.ts",
       ),
-      "chibireact/jsx-runtime": fromRoot(
-        "./packages/chibireact/src/jsx-runtime.ts",
+      "@leaning-rct/core/jsx-runtime": fromRoot(
+        "./packages/core/src/jsx-runtime.ts",
       ),
-      "chibireact/internal": fromRoot("./packages/chibireact/src/internal.ts"),
-      "chibireact-dom/client": fromRoot(
-        "./packages/chibireact-dom/src/client.ts",
-      ),
-      "@chibireact/reconciler": fromRoot("./packages/reconciler/src/index.ts"),
-      "@chibireact/scheduler": fromRoot("./packages/scheduler/src/index.ts"),
-      chibireact: fromRoot("./packages/chibireact/src/index.ts"),
+      "@leaning-rct/core/internal": fromRoot("./packages/core/src/internal.ts"),
+      "@leaning-rct/dom/client": fromRoot("./packages/dom/src/client.ts"),
+      "@leaning-rct/reconciler": fromRoot("./packages/reconciler/src/index.ts"),
+      "@leaning-rct/scheduler": fromRoot("./packages/scheduler/src/index.ts"),
+      "@leaning-rct/core": fromRoot("./packages/core/src/index.ts"),
     },
   },
   test: {

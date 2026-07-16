@@ -1,5 +1,5 @@
-import { useEffect, useState } from "chibireact";
-import { createRoot } from "chibireact-dom/client";
+import { useEffect, useState } from "@leaning-rct/core";
+import { createRoot } from "@leaning-rct/dom/client";
 import "./style.css";
 
 type Todo = { id: number; title: string; done: boolean };
@@ -12,9 +12,9 @@ function TodoApp() {
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    document.title = `残り${todos.filter((todo) => !todo.done).length}件 · chibireact`;
+    document.title = `残り${todos.filter((todo) => !todo.done).length}件 · leaning-rct`;
     return () => {
-      document.title = "chibireact Playground";
+      document.title = "leaning-rct Playground";
     };
   }, [todos]);
 
@@ -35,7 +35,7 @@ function TodoApp() {
         <p className="eyebrow">LIVE MILESTONE</p>
         <h1 id="playground-title">小さなReactで、Todoを動かす。</h1>
         <p className="lead">
-          この画面はReact本体ではなく、教材で実装するchibireactだけで描画されています。
+          この画面はReact本体ではなく、教材で実装するleaning-rctだけで描画されています。
         </p>
         <form onSubmit={addTodo} className="composer">
           <label>

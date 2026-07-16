@@ -1,11 +1,11 @@
 {
-  "name": "@chibireact/reconciler",
+  "name": "@leaning-rct/reconciler",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@chibireact/scheduler": "workspace:*",
-    "chibireact": "workspace:*"
+    "@leaning-rct/core": "workspace:*",
+    "@leaning-rct/scheduler": "workspace:*"
   },
   "exports": {
     ".": "./src/index.ts"

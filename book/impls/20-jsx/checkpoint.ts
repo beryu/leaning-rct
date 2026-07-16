@@ -1,5 +1,5 @@
-const ELEMENT = Symbol.for("chibireact.element");
-export const Fragment = Symbol.for("chibireact.fragment");
+const ELEMENT = Symbol.for("leaning-rct.element");
+export const Fragment = Symbol.for("leaning-rct.fragment");
 
 export function jsx(
   type: unknown,

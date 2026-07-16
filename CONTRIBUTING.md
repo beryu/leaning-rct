@@ -1,6 +1,6 @@
 # Contributing
 
-chibireactへの改善提案を歓迎します。Issueでは、対象章、期待する説明または挙動、現在の説明または挙動を明記してください。
+leaning-rctへの改善提案を歓迎します。Issueでは、対象章、期待する説明または挙動、現在の説明または挙動を明記してください。
 
 ## Pull request
 

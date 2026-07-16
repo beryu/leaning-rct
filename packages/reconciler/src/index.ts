@@ -1,15 +1,18 @@
-import { scheduleMicrotask } from "@chibireact/scheduler";
-import { setCurrentDispatcher, type Dispatcher } from "chibireact/internal";
+import { scheduleMicrotask } from "@leaning-rct/scheduler";
+import {
+  setCurrentDispatcher,
+  type Dispatcher,
+} from "@leaning-rct/core/internal";
 import {
   Fragment,
-  type ChibiReactElement,
-  type ChibiReactNode,
+  type RctElement,
+  type RctNode,
   type DependencyList,
   type Dispatch,
   type EffectCallback,
   type FunctionComponent,
   type SetStateAction,
-} from "chibireact";
+} from "@leaning-rct/core";
 
 type FiberTag = "root" | "host" | "text" | "function" | "fragment";
 
@@ -30,7 +33,7 @@ type Hook = StateHook | EffectHook;
 
 export interface Fiber {
   tag: FiberTag;
-  type: ChibiReactElement["type"] | null;
+  type: RctElement["type"] | null;
   key: string | number | null;
   props: Record<string, unknown>;
   stateNode: Node | null;
@@ -57,14 +60,14 @@ export interface HostConfig {
 export interface FiberRoot {
   container: Element | DocumentFragment;
   current: Fiber;
-  element: ChibiReactNode;
+  element: RctNode;
   scheduled: boolean;
   host: HostConfig;
   pendingEffects: EffectHook[];
 }
 
 export interface ReconcilerRoot {
-  render(node: ChibiReactNode): void;
+  render(node: RctNode): void;
   unmount(): void;
   flushSync(): void;
 }
@@ -147,9 +150,9 @@ function performWork(root: FiberRoot): void {
   }
 }
 
-function normalizeChildren(node: ChibiReactNode): ChibiReactNode[] {
+function normalizeChildren(node: RctNode): RctNode[] {
   if (Array.isArray(node)) {
-    const children: ChibiReactNode[] = [];
+    const children: RctNode[] = [];
     for (const child of node) children.push(...normalizeChildren(child));
     return children;
   }
@@ -157,12 +160,12 @@ function normalizeChildren(node: ChibiReactNode): ChibiReactNode[] {
   return [node];
 }
 
-function nodeIdentity(node: ChibiReactNode, index: number): string | number {
+function nodeIdentity(node: RctNode, index: number): string | number {
   if (isElement(node) && node.key != null) return node.key;
   return index;
 }
 
-function sameType(fiber: Fiber, node: ChibiReactNode): boolean {
+function sameType(fiber: Fiber, node: RctNode): boolean {
   if (typeof node === "string" || typeof node === "number")
     return fiber.tag === "text";
   if (!isElement(node)) return false;
@@ -173,7 +176,7 @@ function reconcileChildren(
   parent: Fiber,
   parentDom: Element | DocumentFragment,
   oldFirstChild: Fiber | null,
-  newChildren: ChibiReactNode[],
+  newChildren: RctNode[],
 ): Fiber | null {
   const oldByIdentity = new Map<string | number, Fiber>();
   let old = oldFirstChild;
@@ -218,7 +221,7 @@ function reconcileFiber(
   parent: Fiber,
   parentDom: Element | DocumentFragment,
   oldFiber: Fiber | null,
-  node: ChibiReactNode,
+  node: RctNode,
   index: number,
 ): Fiber | null {
   if (typeof node === "string" || typeof node === "number") {
@@ -336,7 +339,7 @@ function renderFunctionComponent(
   fiber: Fiber,
   component: FunctionComponent<any>,
   props: Record<string, unknown>,
-): ChibiReactNode {
+): RctNode {
   let hookIndex = 0;
   const oldHooks = fiber.alternate?.hooks ?? [];
   const dispatcher: Dispatcher = {
@@ -446,7 +449,7 @@ function cleanupFiber(fiber: Fiber): void {
   }
 }
 
-function isElement(node: ChibiReactNode): node is ChibiReactElement {
+function isElement(node: RctNode): node is RctElement {
   return (
     typeof node === "object" &&
     node !== null &&

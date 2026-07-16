@@ -1,5 +1,5 @@
 {
-  "name": "chibireact",
+  "name": "@leaning-rct/core",
   "version": "0.1.0",
   "private": true,
   "type": "module",

@@ -1,5 +1,5 @@
 {
-  "name": "@chibireact/playground",
+  "name": "@leaning-rct/playground",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "chibireact": "workspace:*",
-    "chibireact-dom": "workspace:*"
+    "@leaning-rct/core": "workspace:*",
+    "@leaning-rct/dom": "workspace:*"
   },
   "devDependencies": {
     "vite": "^7.0.5"

@@ -22,7 +22,7 @@ priority、lanes、time slicing、automatic batching、transitionを扱います
 
 ## SSRとHydration
 
-`renderToString`、`hydrateRoot`、streamingを順に実装します。完成するまで`chibireact-dom/server`は公開しません。
+`renderToString`、`hydrateRoot`、streamingを順に実装します。完成するまで`@leaning-rct/dom/server`は公開しません。
 
 ## Custom Renderer
 

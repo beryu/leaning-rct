@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: "chibireact"
+  name: "leaning-rct"
   text: "React.jsを、一行ずつ作ろう。"
   tagline: JSXからFiber、Hooks、Effectまで。小さく動かし続けながら、Reactの内側を自分の手で確かめるオンラインブックです。
   actions:
@@ -11,7 +11,7 @@ hero:
       link: /00-introduction
     - theme: alt
       text: GitHubでコードを見る
-      link: https://github.com/beryu/chibireact
+      link: https://github.com/beryu/leaning-rct
 
 features:
   - icon: "< />"
@@ -30,11 +30,11 @@ features:
 
 <div class="course-intro">
 
-**最初のゴール:** 教材で作ったchibireactだけを使い、状態・イベント・リスト差分・副作用を備えたTodoアプリを動かします。
+**最初のゴール:** 教材で作ったleaning-rctだけを使い、状態・イベント・リスト差分・副作用を備えたTodoアプリを動かします。
 
 ```tsx
-import { useState } from "chibireact";
-import { createRoot } from "chibireact-dom/client";
+import { useState } from "@leaning-rct/core";
+import { createRoot } from "@leaning-rct/dom/client";
 
 function Counter() {
   const [count, setCount] = useState(0);
@@ -46,4 +46,4 @@ createRoot(document.querySelector("#app")!).render(<Counter />);
 
 </div>
 
-chibireactはReact、Meta、chibivueとは無関係の独立した教育プロジェクトです。Reactとの完全な互換性ではなく、読みやすさと内部構造の理解を優先しています。
+leaning-rctはReact、Meta、chibivueとは無関係の独立した教育プロジェクトです。Reactとの完全な互換性ではなく、読みやすさと内部構造の理解を優先しています。

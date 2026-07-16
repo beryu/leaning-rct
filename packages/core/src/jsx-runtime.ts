@@ -1,8 +1,8 @@
 export { Fragment, jsx, jsx as jsxDEV, jsx as jsxs } from "./element";
-export type { ChibiReactElement as JSXElement } from "./types";
+export type { RctElement as JSXElement } from "./types";
 
 export namespace JSX {
-  export type Element = import("./types").ChibiReactElement;
+  export type Element = import("./types").RctElement;
   export interface ElementChildrenAttribute {
     children: Record<string, never>;
   }
@@ -56,7 +56,7 @@ interface HTMLAttributes<T extends Element> {
   title?: string;
   role?: string;
   tabIndex?: number;
-  children?: import("./types").ChibiReactNode;
+  children?: import("./types").RctNode;
   style?: CSSProperties;
   onClick?: (event: MouseEvent & { currentTarget: T }) => void;
   onInput?: (event: InputEvent & { currentTarget: T }) => void;

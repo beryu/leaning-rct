@@ -41,6 +41,6 @@ render phaseでは次のFiber treeを作り、必要なDOMを準備します。c
 
 ## 本家Reactとの対応
 
-本家ではwork loopを中断・再開でき、flagsをcommit phaseで処理します。chibireactは読みやすさのため再帰処理と即時DOM準備を使いますが、current/alternateとphaseの境界は維持します。
+本家ではwork loopを中断・再開でき、flagsをcommit phaseで処理します。leaning-rctは読みやすさのため再帰処理と即時DOM準備を使いますが、current/alternateとphaseの境界は維持します。
 
-章の実装: [`book/impls/40-fiber`](https://github.com/beryu/chibireact/tree/main/book/impls/40-fiber)
+章の実装: [`book/impls/40-fiber`](https://github.com/beryu/leaning-rct/tree/main/book/impls/40-fiber)

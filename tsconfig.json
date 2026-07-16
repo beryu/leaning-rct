@@ -10,14 +10,14 @@
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "chibireact",
+    "jsxImportSource": "@leaning-rct/core",
     "baseUrl": ".",
     "paths": {
-      "chibireact": ["packages/chibireact/src/index.ts"],
-      "chibireact/*": ["packages/chibireact/src/*"],
-      "chibireact-dom/client": ["packages/chibireact-dom/src/client.ts"],
-      "@chibireact/reconciler": ["packages/reconciler/src/index.ts"],
-      "@chibireact/scheduler": ["packages/scheduler/src/index.ts"]
+      "@leaning-rct/core": ["packages/core/src/index.ts"],
+      "@leaning-rct/core/*": ["packages/core/src/*"],
+      "@leaning-rct/dom/client": ["packages/dom/src/client.ts"],
+      "@leaning-rct/reconciler": ["packages/reconciler/src/index.ts"],
+      "@leaning-rct/scheduler": ["packages/scheduler/src/index.ts"]
     },
     "types": ["node", "vitest/globals"]
   },

@@ -62,36 +62,36 @@ importers:
 
   examples/playground:
     dependencies:
-      chibireact:
+      '@leaning-rct/core':
         specifier: workspace:*
-        version: link:../../packages/chibireact
-      chibireact-dom:
+        version: link:../../packages/core
+      '@leaning-rct/dom':
         specifier: workspace:*
-        version: link:../../packages/chibireact-dom
+        version: link:../../packages/dom
     devDependencies:
       vite:
         specifier: ^7.0.5
         version: 7.3.6(@types/node@24.13.3)
 
-  packages/chibireact: {}
+  packages/core: {}
 
-  packages/chibireact-dom:
+  packages/dom:
     dependencies:
-      '@chibireact/reconciler':
+      '@leaning-rct/core':
+        specifier: workspace:*
+        version: link:../core
+      '@leaning-rct/reconciler':
         specifier: workspace:*
         version: link:../reconciler
-      chibireact:
-        specifier: workspace:*
-        version: link:../chibireact
 
   packages/reconciler:
     dependencies:
-      '@chibireact/scheduler':
+      '@leaning-rct/core':
+        specifier: workspace:*
+        version: link:../core
+      '@leaning-rct/scheduler':
         specifier: workspace:*
         version: link:../scheduler
-      chibireact:
-        specifier: workspace:*
-        version: link:../chibireact
 
   packages/scheduler: {}
 

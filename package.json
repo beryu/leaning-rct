@@ -1,5 +1,5 @@
 {
-  "name": "chibireact-workspace",
+  "name": "leaning-rct-workspace",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "dev": "vitepress dev book/online-book",
     "book:build": "vitepress build book/online-book",
     "book:preview": "vitepress preview book/online-book",
-    "play": "pnpm --filter @chibireact/playground dev",
+    "play": "pnpm --filter @leaning-rct/playground dev",
     "build": "pnpm -r --if-present build && pnpm book:build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",

@@ -1,5 +1,5 @@
-import { Fragment, createElement } from "chibireact";
-import { jsx, jsxs } from "chibireact/jsx-runtime";
+import { Fragment, createElement } from "@leaning-rct/core";
+import { jsx, jsxs } from "@leaning-rct/core/jsx-runtime";
 
 describe("React Element", () => {
   it("props、key、childrenを正規化する", () => {

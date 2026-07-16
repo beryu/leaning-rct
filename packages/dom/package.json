@@ -1,11 +1,11 @@
 {
-  "name": "chibireact-dom",
+  "name": "@leaning-rct/dom",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@chibireact/reconciler": "workspace:*",
-    "chibireact": "workspace:*"
+    "@leaning-rct/core": "workspace:*",
+    "@leaning-rct/reconciler": "workspace:*"
   },
   "exports": {
     "./client": "./src/client.ts"

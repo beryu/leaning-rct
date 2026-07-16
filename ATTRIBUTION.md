@@ -1,6 +1,6 @@
 # Attribution and sources
 
-chibireactは以下のプロジェクトや資料を参照しています。
+leaning-rctは以下のプロジェクトや資料を参照しています。
 
 - [React](https://github.com/facebook/react): 公開APIと内部パッケージ構成の理解
 - [React documentation](https://react.dev/): 公開APIの意味と利用例

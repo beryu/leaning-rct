@@ -34,7 +34,7 @@ setCount((count) => count + 1);
 
 ## Hooksを条件分岐できない理由
 
-Hookを名前ではなく呼び出し順で対応付けるためです。前回とHookの種類・個数が変わった場合、chibireactは説明的な例外を投げます。
+Hookを名前ではなく呼び出し順で対応付けるためです。前回とHookの種類・個数が変わった場合、leaning-rctは説明的な例外を投げます。
 
 ## Playground確認
 
@@ -48,4 +48,4 @@ Todoの追加と完了切り替えは配列stateの更新です。二つのstate
 
 本家もFiberにHooksとupdate queueを結び付けます。priority、lanes、render phase updateは本書の初回実装から除外しています。
 
-章の実装: [`book/impls/60-hooks`](https://github.com/beryu/chibireact/tree/main/book/impls/60-hooks)
+章の実装: [`book/impls/60-hooks`](https://github.com/beryu/leaning-rct/tree/main/book/impls/60-hooks)

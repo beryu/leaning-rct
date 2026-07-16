@@ -1,23 +1,23 @@
 import { defineConfig } from "vitepress";
 
-const base = process.env.VITEPRESS_BASE ?? "/chibireact/";
-const repository = "https://github.com/beryu/chibireact";
+const base = process.env.VITEPRESS_BASE ?? "/leaning-rct/";
+const repository = "https://github.com/beryu/leaning-rct";
 
 export default defineConfig({
   lang: "ja-JP",
-  title: "The chibireact Book",
+  title: "The leaning-rct Book",
   description: "React.jsを一行ずつ作りながら、内部構造を学ぶオンラインブック。",
   base,
   srcDir: "src",
   cleanUrls: true,
   lastUpdated: true,
-  sitemap: { hostname: "https://beryu.github.io/chibireact/" },
+  sitemap: { hostname: "https://beryu.github.io/leaning-rct/" },
   markdown: { lineNumbers: true },
   head: [
     ["meta", { name: "theme-color", content: "#0b2423" }],
     ["meta", { property: "og:type", content: "website" }],
-    ["meta", { property: "og:site_name", content: "chibireact" }],
-    ["meta", { property: "og:title", content: "The chibireact Book" }],
+    ["meta", { property: "og:site_name", content: "leaning-rct" }],
+    ["meta", { property: "og:title", content: "The leaning-rct Book" }],
     [
       "meta",
       {
@@ -27,12 +27,12 @@ export default defineConfig({
     ],
     [
       "meta",
-      { property: "og:url", content: "https://beryu.github.io/chibireact/" },
+      { property: "og:url", content: "https://beryu.github.io/leaning-rct/" },
     ],
     ["meta", { name: "twitter:card", content: "summary" }],
   ],
   themeConfig: {
-    siteTitle: "chibireact",
+    siteTitle: "leaning-rct",
     nav: [
       { text: "ホーム", link: "/" },
       { text: "学習を始める", link: "/00-introduction" },
@@ -47,7 +47,7 @@ export default defineConfig({
         items: [{ text: "1. はじめに", link: "/00-introduction" }],
       },
       {
-        text: "Minimum chibireact",
+        text: "Minimum leaning-rct",
         items: [
           { text: "2. 最初のレンダリング", link: "/10-first-render" },
           { text: "3. JSX", link: "/20-jsx" },
