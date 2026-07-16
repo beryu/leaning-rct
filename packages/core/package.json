@@ -1,0 +1,12 @@
+{
+  "name": "@leaning-rct/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./jsx-runtime": "./src/jsx-runtime.ts",
+    "./jsx-dev-runtime": "./src/jsx-runtime.ts",
+    "./internal": "./src/internal.ts"
+  }
+}

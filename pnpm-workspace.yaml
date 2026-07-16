@@ -1,0 +1,7 @@
+packages:
+  - packages/*
+  - examples/*
+  - book/impls/*
+
+onlyBuiltDependencies:
+  - esbuild

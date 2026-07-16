@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@leaning-rct/core",
+    "baseUrl": ".",
+    "paths": {
+      "@leaning-rct/core": ["packages/core/src/index.ts"],
+      "@leaning-rct/core/*": ["packages/core/src/*"],
+      "@leaning-rct/dom/client": ["packages/dom/src/client.ts"],
+      "@leaning-rct/reconciler": ["packages/reconciler/src/index.ts"],
+      "@leaning-rct/scheduler": ["packages/scheduler/src/index.ts"]
+    },
+    "types": ["node", "vitest/globals"]
+  },
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "examples/**/*.ts",
+    "examples/**/*.tsx",
+    "book/impls/**/*.ts",
+    "tests/**/*.ts",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts"
+  ],
+  "exclude": ["node_modules", "book/online-book/.vitepress/dist"]
+}
