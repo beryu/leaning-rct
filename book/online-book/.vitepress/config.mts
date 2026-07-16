@@ -90,9 +90,8 @@ export default defineConfig({
     lastUpdated: { text: "最終更新" },
     docFooter: { prev: "前の章", next: "次の章" },
     footer: {
-      message:
-        "MIT License · React、Meta、chibivueとは無関係の独立した教育プロジェクトです。",
-      copyright: "Copyright © 2026 Ryuta Kibe",
+      message: `Released under the <a href="${repository}/blob/main/LICENSE">MIT License</a>. This is an independent educational project and is not affiliated with Meta or React.`,
+      copyright: "© 2026 Ryuta Kibe",
     },
   },
 });
