@@ -1,3 +1,8 @@
+<script setup>
+import BrowserExercise from "../.vitepress/theme/components/BrowserExercise.vue";
+import starter from "../../exercises/40-fiber/starter.ts?raw";
+</script>
+
 # 5. 最小Fiber
 
 <span class="status-complete">✓ COMPLETE</span>
@@ -26,6 +31,12 @@ type Fiber = {
 ```
 
 `return`、`child`、`sibling`で木を表し、`stateNode`がDOM、`alternate`が前回のFiberを指します。
+
+## ブラウザで実装する
+
+最小Fiberを組み立て、`child`、`sibling`、`return`の関係を整形表示してください。
+
+<ClientOnly><BrowserExercise title="Fiber treeを組み立てる" storage-key="40-fiber" :initial-code="starter" /></ClientOnly>
 
 ## render phaseとcommit phase
 

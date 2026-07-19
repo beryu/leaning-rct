@@ -32,7 +32,9 @@ JSX → React Element → Fiber tree → DOM
 
 ## Playground確認
 
-`pnpm install`の後に`pnpm play`を実行すると、`examples/playground`のTodoアプリが起動します。最終章の姿を最初に触り、これから作るものを具体化してください。
+最終章のブラウザ演習では、cloneやローカルサーバーなしでTodoアプリを操作できます。編集内容は同じブラウザのLocalStorageだけへ保存され、GitHubや外部サーバーへ送信されません。端末やブラウザを変えた場合、またはブラウザデータを削除した場合は引き継がれません。演習のリセットで初期状態へ戻せます。
+
+コントリビューターが完成版を開発するときは、`pnpm install`の後に`pnpm play`を実行して`examples/playground`をローカルで起動できます。
 
 ## テスト
 

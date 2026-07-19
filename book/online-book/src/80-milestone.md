@@ -1,3 +1,8 @@
+<script setup>
+import BrowserExercise from "../.vitepress/theme/components/BrowserExercise.vue";
+import starter from "../../exercises/80-milestone/starter.tsx?raw";
+</script>
+
 # 9. Todoマイルストーン
 
 <span class="status-complete">✓ COMPLETE</span>
@@ -46,9 +51,15 @@ function TodoApp() {
 5. rendererが必要なDOMだけを更新する。
 6. commit後にdependenciesが変わったEffectを実行する。
 
+## ブラウザで完成版Todoを動かす
+
+cloneやローカルサーバーは不要です。Todoの追加、完了状態の切り替え、stateによる再描画をこのページで試せます。入力したコードはこの章専用に保存されます。
+
+<ClientOnly><BrowserExercise title="Todoマイルストーンを完成させる" storage-key="80-milestone" :initial-code="starter" /></ClientOnly>
+
 ## Playground確認
 
-`pnpm play`でTodoの追加・完了切り替えを試します。このアプリはnpmのReactやReact DOMを依存関係に持ちません。
+ページ上の演習でTodoを試せます。完成版runtimeをローカルで開発する場合は、引き続き`pnpm play`を使えます。
 
 ## テスト
 
