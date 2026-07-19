@@ -1,3 +1,8 @@
+<script setup>
+import BrowserExercise from "../.vitepress/theme/components/BrowserExercise.vue";
+import starter from "../../exercises/30-components/starter.ts?raw";
+</script>
+
 # 4. コンポーネント
 
 <span class="status-complete">✓ COMPLETE</span>
@@ -27,6 +32,12 @@ typeが文字列ならDOM Elementを生成します。関数ならpropsを渡し
 - `onClick`などは古いlistenerを外してから新しいlistenerを登録する。
 - `value`と`checked`はDOM propertyとして更新する。
 - `aria-*`と`data-*`は属性として保持する。
+
+## ブラウザで実装する
+
+関数コンポーネントへpropsを渡し、返されたElementをmountして結果を表示してください。
+
+<ClientOnly><BrowserExercise title="関数コンポーネントを呼び出す" storage-key="30-components" :initial-code="starter" /></ClientOnly>
 
 ## Playground確認
 

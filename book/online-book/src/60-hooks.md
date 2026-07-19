@@ -1,3 +1,8 @@
+<script setup>
+import BrowserExercise from "../.vitepress/theme/components/BrowserExercise.vue";
+import starter from "../../exercises/60-hooks/starter.ts?raw";
+</script>
+
 # 7. 最小Hooks
 
 <span class="status-complete">✓ COMPLETE</span>
@@ -20,6 +25,12 @@ type StateHook<S> = {
   queue: SetStateAction<S>[];
 };
 ```
+
+## ブラウザで実装する
+
+Hookの更新queueへ関数更新を2回積み、同じイベントで順番に適用される様子を確認してください。
+
+<ClientOnly><BrowserExercise title="useStateの更新queueを作る" storage-key="60-hooks" :initial-code="starter" /></ClientOnly>
 
 dispatchはqueueへvalueまたは更新関数を追加し、rootをscheduleします。次のレンダーでqueueを先頭から適用します。
 

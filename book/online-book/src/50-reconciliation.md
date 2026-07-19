@@ -1,3 +1,8 @@
+<script setup>
+import BrowserExercise from "../.vitepress/theme/components/BrowserExercise.vue";
+import starter from "../../exercises/50-reconciliation/starter.ts?raw";
+</script>
+
 # 6. Reconciliation
 
 <span class="status-complete">✓ COMPLETE</span>
@@ -25,6 +30,12 @@ const reusable = oldFiber?.type === element.type;
 ## keyの意味
 
 keyは配列全体で永続的に一意である必要はなく、同じ親を持つ兄弟の間で安定していれば十分です。indexをkey代わりにすると、先頭挿入時に別項目のstateを引き継ぐ可能性があります。
+
+## ブラウザで実装する
+
+前回と次回のchildrenをkeyで比較し、再利用・更新・追加・削除を画面で確認してください。
+
+<ClientOnly><BrowserExercise title="childrenの差分を確認する" storage-key="50-reconciliation" :initial-code="starter" /></ClientOnly>
 
 ## Playground確認
 

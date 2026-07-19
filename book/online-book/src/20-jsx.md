@@ -1,3 +1,8 @@
+<script setup>
+import BrowserExercise from "../.vitepress/theme/components/BrowserExercise.vue";
+import starter from "../../exercises/20-jsx/starter.tsx?raw";
+</script>
+
 # 3. JSX
 
 <span class="status-complete">✓ COMPLETE</span>
@@ -45,6 +50,12 @@ export function jsx(type, config, maybeKey) {
 ```
 
 `Fragment`は余分なDOM要素を作らずchildrenをまとめる特別なtypeです。
+
+## ブラウザで実装する
+
+`createElement`が返すElementを確認し、propsとchildrenをDOMとconsoleへ表示してください。
+
+<ClientOnly><BrowserExercise title="JSXからElementを作る" storage-key="20-jsx" :initial-code="starter" /></ClientOnly>
 
 ## Playground確認
 

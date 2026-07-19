@@ -1,3 +1,8 @@
+<script setup>
+import BrowserExercise from "../.vitepress/theme/components/BrowserExercise.vue";
+import starter from "../../exercises/70-effects/starter.ts?raw";
+</script>
+
 # 8. Effect
 
 <span class="status-complete">✓ COMPLETE</span>
@@ -19,6 +24,12 @@ type EffectHook = {
   cleanup?: () => void;
 };
 ```
+
+## ブラウザで実装する
+
+dependencyを変更して、前のcleanupが新しいEffectより先に実行される順序を画面で追ってください。
+
+<ClientOnly><BrowserExercise title="Effectのcleanup順序を追う" storage-key="70-effects" :initial-code="starter" /></ClientOnly>
 
 レンダー時には実行せず、前回と次回のdependenciesを`Object.is`で比較します。変更があったEffectだけをrootのpending listへ積み、DOM commit後のmicrotaskで実行します。
 

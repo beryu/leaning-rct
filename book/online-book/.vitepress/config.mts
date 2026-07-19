@@ -37,8 +37,8 @@ export default defineConfig({
       { text: "ホーム", link: "/" },
       { text: "学習を始める", link: "/00-introduction" },
       {
-        text: "Playground",
-        link: `${repository}/tree/main/examples/playground`,
+        text: "ブラウザPlayground",
+        link: "/80-milestone",
       },
     ],
     sidebar: [

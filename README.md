@@ -10,6 +10,10 @@ JSX、関数コンポーネント、同期Fiber、DOM reconciliation、`useState
 
 公開先: <https://beryu.github.io/leaning-rct/>
 
+オンラインブックの各章にはブラウザ演習があります。cloneやローカルサーバーなしでコードを編集・実行でき、編集内容は章ごとに同じブラウザのLocalStorageだけへ保存されます。GitHubや外部サーバーへは送信されません。端末・ブラウザを変えた場合は引き継がれず、ブラウザデータを削除すると消えます。「リセット」で章の初期コードへ戻せます。
+
+ローカル実行はコントリビューターや完成版runtimeの開発向けに引き続き提供します。
+
 ## Quick Start
 
 必要環境はNode.js 24以降とpnpm 10です。
