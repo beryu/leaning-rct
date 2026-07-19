@@ -1,3 +1,8 @@
+<script setup>
+import BrowserExercise from "../.vitepress/theme/components/BrowserExercise.vue";
+import firstRenderStarter from "../../exercises/10-first-render/starter.ts?raw";
+</script>
+
 # 2. 最初のレンダリング
 
 <span class="status-complete">✓ COMPLETE</span>
@@ -35,6 +40,18 @@ root.render(createElement("h1", null, "Hello, leaning-rct!"));
 ```
 
 render要求はmicrotaskへ積みます。同じ同期処理内で複数回呼んでも最後の状態を一度だけ描画できる土台になります。
+
+## ブラウザで実装する
+
+`render`の中を実装し、「実行」を押して右側に`Hello, leaning-rct!`を表示してください。編集内容はこのブラウザへ自動保存されるため、ページを閉じても続きから再開できます。
+
+<ClientOnly>
+  <BrowserExercise
+    title="最初のrenderを実装する"
+    storage-key="10-first-render"
+    :initial-code="firstRenderStarter"
+  />
+</ClientOnly>
 
 ## Playground確認
 
