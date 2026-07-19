@@ -16,6 +16,7 @@ const isRunning = ref(false);
 const saveState = ref<SaveState>("saved");
 const editor = ref<HTMLTextAreaElement>();
 const highlight = ref<HTMLElement>();
+let typescript: typeof import("typescript") | undefined;
 const localStorageKey = computed(
   () => `leaning-rct:exercise:v1:${props.storageKey}`,
 );
@@ -55,22 +56,51 @@ function escapeHtml(value: string) {
     .replaceAll('"', "&quot;");
 }
 
+function tokenClass(
+  ts: typeof import("typescript"),
+  token: import("typescript").SyntaxKind,
+) {
+  if (token >= ts.SyntaxKind.FirstKeyword && token <= ts.SyntaxKind.LastKeyword)
+    return "tok-keyword";
+
+  switch (token) {
+    case ts.SyntaxKind.SingleLineCommentTrivia:
+    case ts.SyntaxKind.MultiLineCommentTrivia:
+      return "tok-comment";
+    case ts.SyntaxKind.StringLiteral:
+    case ts.SyntaxKind.NoSubstitutionTemplateLiteral:
+    case ts.SyntaxKind.TemplateHead:
+    case ts.SyntaxKind.TemplateMiddle:
+    case ts.SyntaxKind.TemplateTail:
+      return "tok-string";
+    case ts.SyntaxKind.NumericLiteral:
+    case ts.SyntaxKind.BigIntLiteral:
+      return "tok-number";
+    default:
+      return undefined;
+  }
+}
+
 function highlighted(value: string) {
-  const escaped = escapeHtml(value);
-  return escaped
-    .replace(
-      /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)/g,
-      '<span class="tok-comment">$1</span>',
-    )
-    .replace(
-      /(&quot;.*?&quot;|&#39;.*?&#39;|`.*?`)/g,
-      '<span class="tok-string">$1</span>',
-    )
-    .replace(
-      /\b(const|let|var|function|return|if|else|for|of|new|type|interface|true|false|null|undefined|class|export|import|from|as)\b/g,
-      '<span class="tok-keyword">$1</span>',
-    )
-    .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="tok-number">$1</span>');
+  if (!typescript) return escapeHtml(value);
+
+  const scanner = typescript.createScanner(
+    typescript.ScriptTarget.Latest,
+    false,
+    typescript.LanguageVariant.JSX,
+    value,
+  );
+  const tokens: string[] = [];
+  for (
+    let token = scanner.scan();
+    token !== typescript.SyntaxKind.EndOfFileToken;
+    token = scanner.scan()
+  ) {
+    const text = escapeHtml(scanner.getTokenText());
+    const className = tokenClass(typescript, token);
+    tokens.push(className ? `<span class="${className}">${text}</span>` : text);
+  }
+  return tokens.join("");
 }
 
 function syncEditor() {
@@ -88,6 +118,10 @@ onMounted(() => {
   }
   isReady.value = true;
   void nextTick(syncEditor);
+  void import("typescript").then((module) => {
+    typescript = module;
+    syncEditor();
+  });
 });
 
 watch(code, (value) => {
@@ -377,16 +411,16 @@ function reset() {
 .browser-exercise__lines span {
   display: block;
 }
-.tok-comment {
+.browser-exercise__highlight :deep(.tok-comment) {
   color: #7f8c8d;
 }
-.tok-string {
+.browser-exercise__highlight :deep(.tok-string) {
   color: #b7791f;
 }
-.tok-keyword {
+.browser-exercise__highlight :deep(.tok-keyword) {
   color: #7c3aed;
 }
-.tok-number {
+.browser-exercise__highlight :deep(.tok-number) {
   color: #0984a3;
 }
 .browser-exercise__preview {
