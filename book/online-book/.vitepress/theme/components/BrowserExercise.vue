@@ -47,35 +47,170 @@ function saveCode(value: string) {
   }
 }
 
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
-}
+const keywords = new Set([
+  "abstract",
+  "any",
+  "as",
+  "asserts",
+  "async",
+  "await",
+  "boolean",
+  "break",
+  "case",
+  "catch",
+  "class",
+  "const",
+  "continue",
+  "debugger",
+  "declare",
+  "default",
+  "delete",
+  "do",
+  "else",
+  "enum",
+  "export",
+  "extends",
+  "false",
+  "finally",
+  "for",
+  "from",
+  "function",
+  "get",
+  "if",
+  "implements",
+  "import",
+  "in",
+  "infer",
+  "instanceof",
+  "interface",
+  "is",
+  "keyof",
+  "let",
+  "module",
+  "namespace",
+  "never",
+  "new",
+  "null",
+  "number",
+  "object",
+  "of",
+  "override",
+  "private",
+  "protected",
+  "public",
+  "readonly",
+  "return",
+  "satisfies",
+  "set",
+  "static",
+  "string",
+  "super",
+  "switch",
+  "symbol",
+  "this",
+  "throw",
+  "true",
+  "try",
+  "type",
+  "typeof",
+  "undefined",
+  "unknown",
+  "using",
+  "var",
+  "void",
+  "while",
+  "with",
+  "yield",
+]);
+
+type HighlightToken = { className?: string; text: string };
 
 function highlighted(value: string) {
-  const escaped = escapeHtml(value);
-  return escaped
-    .replace(
-      /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)/g,
-      '<span class="tok-comment">$1</span>',
-    )
-    .replace(
-      /(&quot;.*?&quot;|&#39;.*?&#39;|`.*?`)/g,
-      '<span class="tok-string">$1</span>',
-    )
-    .replace(
-      /\b(const|let|var|function|return|if|else|for|of|new|type|interface|true|false|null|undefined|class|export|import|from|as)\b/g,
-      '<span class="tok-keyword">$1</span>',
-    )
-    .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="tok-number">$1</span>');
+  const tokens: HighlightToken[] = [];
+  let cursor = 0;
+
+  function push(text: string, className?: string) {
+    const previous = tokens.at(-1);
+    if (!className && previous && !previous.className) previous.text += text;
+    else tokens.push({ className, text });
+  }
+
+  while (cursor < value.length) {
+    const rest = value.slice(cursor);
+
+    if (rest.startsWith("//")) {
+      const lineEnd = value.indexOf("\n", cursor + 2);
+      const end = lineEnd === -1 ? value.length : lineEnd;
+      push(value.slice(cursor, end), "tok-comment");
+      cursor = end;
+      continue;
+    }
+
+    if (rest.startsWith("/*")) {
+      const commentEnd = value.indexOf("*/", cursor + 2);
+      const end = commentEnd === -1 ? value.length : commentEnd + 2;
+      push(value.slice(cursor, end), "tok-comment");
+      cursor = end;
+      continue;
+    }
+
+    const quote = value[cursor];
+    if (quote === '"' || quote === "'" || quote === "`") {
+      let end = cursor + 1;
+      while (end < value.length) {
+        if (value[end] === "\\") {
+          end += 2;
+          continue;
+        }
+        if (value[end] === quote) {
+          end += 1;
+          break;
+        }
+        if (quote !== "`" && value[end] === "\n") break;
+        end += 1;
+      }
+      push(value.slice(cursor, end), "tok-string");
+      cursor = end;
+      continue;
+    }
+
+    const number = rest.match(
+      /^(?:0[xX][\dA-Fa-f_]+n?|0[bB][01_]+n?|0[oO][0-7_]+n?|\d[\d_]*(?:\.[\d_]*)?(?:[eE][+-]?[\d_]+)?n?)/,
+    )?.[0];
+    if (number) {
+      push(number, "tok-number");
+      cursor += number.length;
+      continue;
+    }
+
+    const identifier = rest.match(/^[$A-Z_a-z][$\w]*/)?.[0];
+    if (identifier) {
+      push(identifier, keywords.has(identifier) ? "tok-keyword" : undefined);
+      cursor += identifier.length;
+      continue;
+    }
+
+    push(value[cursor]);
+    cursor += 1;
+  }
+  return tokens;
 }
 
 function syncEditor() {
   if (!editor.value || !highlight.value) return;
-  highlight.value.innerHTML = `${highlighted(code.value)}\n`;
+  const content = document.createDocumentFragment();
+  for (const token of highlighted(code.value)) {
+    if (!token.className) {
+      content.append(token.text);
+      continue;
+    }
+    const span = document.createElement("span");
+    span.className = token.className;
+    span.textContent = token.text;
+    content.append(span);
+  }
+  content.append("\n");
+  highlight.value.replaceChildren(content);
   highlight.value.scrollTop = editor.value.scrollTop;
   highlight.value.scrollLeft = editor.value.scrollLeft;
 }
@@ -117,19 +252,20 @@ function createPreview(source: string) {
 async function run() {
   isRunning.value = true;
   try {
-    const ts = await import("typescript");
-    const result = ts.transpileModule(code.value, {
+    const typescript = await import("typescript");
+    const result = typescript.transpileModule(code.value, {
       compilerOptions: {
-        target: ts.ScriptTarget.ES2022,
-        module: ts.ModuleKind.None,
-        jsx: ts.JsxEmit.React,
+        target: typescript.ScriptTarget.ES2022,
+        module: typescript.ModuleKind.None,
+        jsx: typescript.JsxEmit.React,
         jsxFactory: "createElement",
         jsxFragmentFactory: "Fragment",
       },
       reportDiagnostics: true,
     });
     const errors = (result.diagnostics ?? []).filter(
-      (diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error,
+      (diagnostic) =>
+        diagnostic.category === typescript.DiagnosticCategory.Error,
     );
     const source = errors.length
       ? `throw new Error(${JSON.stringify(
@@ -138,7 +274,7 @@ async function run() {
               const line = diagnostic.file?.getLineAndCharacterOfPosition(
                 diagnostic.start ?? 0,
               ).line;
-              return `行${(line ?? 0) + 1}: ${ts.flattenDiagnosticMessageText(diagnostic.messageText, "\\n")}`;
+              return `行${(line ?? 0) + 1}: ${typescript.flattenDiagnosticMessageText(diagnostic.messageText, "\\n")}`;
             })
             .join("\\n"),
         )})`
@@ -377,16 +513,16 @@ function reset() {
 .browser-exercise__lines span {
   display: block;
 }
-.tok-comment {
+.browser-exercise__highlight :deep(.tok-comment) {
   color: #7f8c8d;
 }
-.tok-string {
+.browser-exercise__highlight :deep(.tok-string) {
   color: #b7791f;
 }
-.tok-keyword {
+.browser-exercise__highlight :deep(.tok-keyword) {
   color: #7c3aed;
 }
-.tok-number {
+.browser-exercise__highlight :deep(.tok-number) {
   color: #0984a3;
 }
 .browser-exercise__preview {
