@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import * as typescript from "typescript";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 
 const props = defineProps<{
@@ -48,47 +47,151 @@ function saveCode(value: string) {
   }
 }
 
-function tokenClass(
-  ts: typeof import("typescript"),
-  token: import("typescript").SyntaxKind,
-) {
-  if (token >= ts.SyntaxKind.FirstKeyword && token <= ts.SyntaxKind.LastKeyword)
-    return "tok-keyword";
+const keywords = new Set([
+  "abstract",
+  "any",
+  "as",
+  "asserts",
+  "async",
+  "await",
+  "boolean",
+  "break",
+  "case",
+  "catch",
+  "class",
+  "const",
+  "continue",
+  "debugger",
+  "declare",
+  "default",
+  "delete",
+  "do",
+  "else",
+  "enum",
+  "export",
+  "extends",
+  "false",
+  "finally",
+  "for",
+  "from",
+  "function",
+  "get",
+  "if",
+  "implements",
+  "import",
+  "in",
+  "infer",
+  "instanceof",
+  "interface",
+  "is",
+  "keyof",
+  "let",
+  "module",
+  "namespace",
+  "never",
+  "new",
+  "null",
+  "number",
+  "object",
+  "of",
+  "override",
+  "private",
+  "protected",
+  "public",
+  "readonly",
+  "return",
+  "satisfies",
+  "set",
+  "static",
+  "string",
+  "super",
+  "switch",
+  "symbol",
+  "this",
+  "throw",
+  "true",
+  "try",
+  "type",
+  "typeof",
+  "undefined",
+  "unknown",
+  "using",
+  "var",
+  "void",
+  "while",
+  "with",
+  "yield",
+]);
 
-  switch (token) {
-    case ts.SyntaxKind.SingleLineCommentTrivia:
-    case ts.SyntaxKind.MultiLineCommentTrivia:
-      return "tok-comment";
-    case ts.SyntaxKind.StringLiteral:
-    case ts.SyntaxKind.NoSubstitutionTemplateLiteral:
-    case ts.SyntaxKind.TemplateHead:
-    case ts.SyntaxKind.TemplateMiddle:
-    case ts.SyntaxKind.TemplateTail:
-      return "tok-string";
-    case ts.SyntaxKind.NumericLiteral:
-    case ts.SyntaxKind.BigIntLiteral:
-      return "tok-number";
-    default:
-      return undefined;
-  }
-}
+type HighlightToken = { className?: string; text: string };
 
 function highlighted(value: string) {
-  const scanner = typescript.createScanner(
-    typescript.ScriptTarget.Latest,
-    false,
-    typescript.LanguageVariant.JSX,
-    value,
-  );
-  const tokens: { className?: string; text: string }[] = [];
-  for (
-    let token = scanner.scan();
-    token !== typescript.SyntaxKind.EndOfFileToken;
-    token = scanner.scan()
-  ) {
-    const text = scanner.getTokenText();
-    const className = tokenClass(typescript, token);
-    tokens.push({ className, text });
+  const tokens: HighlightToken[] = [];
+  let cursor = 0;
+
+  function push(text: string, className?: string) {
+    const previous = tokens.at(-1);
+    if (!className && previous && !previous.className) previous.text += text;
+    else tokens.push({ className, text });
+  }
+
+  while (cursor < value.length) {
+    const rest = value.slice(cursor);
+
+    if (rest.startsWith("//")) {
+      const lineEnd = value.indexOf("\n", cursor + 2);
+      const end = lineEnd === -1 ? value.length : lineEnd;
+      push(value.slice(cursor, end), "tok-comment");
+      cursor = end;
+      continue;
+    }
+
+    if (rest.startsWith("/*")) {
+      const commentEnd = value.indexOf("*/", cursor + 2);
+      const end = commentEnd === -1 ? value.length : commentEnd + 2;
+      push(value.slice(cursor, end), "tok-comment");
+      cursor = end;
+      continue;
+    }
+
+    const quote = value[cursor];
+    if (quote === '"' || quote === "'" || quote === "`") {
+      let end = cursor + 1;
+      while (end < value.length) {
+        if (value[end] === "\\") {
+          end += 2;
+          continue;
+        }
+        if (value[end] === quote) {
+          end += 1;
+          break;
+        }
+        if (quote !== "`" && value[end] === "\n") break;
+        end += 1;
+      }
+      push(value.slice(cursor, end), "tok-string");
+      cursor = end;
+      continue;
+    }
+
+    const number = rest.match(
+      /^(?:0[xX][\dA-Fa-f_]+n?|0[bB][01_]+n?|0[oO][0-7_]+n?|\d[\d_]*(?:\.[\d_]*)?(?:[eE][+-]?[\d_]+)?n?)/,
+    )?.[0];
+    if (number) {
+      push(number, "tok-number");
+      cursor += number.length;
+      continue;
+    }
+
+    const identifier = rest.match(/^[$A-Z_a-z][$\w]*/)?.[0];
+    if (identifier) {
+      push(identifier, keywords.has(identifier) ? "tok-keyword" : undefined);
+      cursor += identifier.length;
+      continue;
+    }
+
+    push(value[cursor]);
+    cursor += 1;
   }
   return tokens;
 }
@@ -149,6 +252,7 @@ function createPreview(source: string) {
 async function run() {
   isRunning.value = true;
   try {
+    const typescript = await import("typescript");
     const result = typescript.transpileModule(code.value, {
       compilerOptions: {
         target: typescript.ScriptTarget.ES2022,
