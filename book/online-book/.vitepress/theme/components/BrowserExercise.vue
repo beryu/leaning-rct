@@ -48,14 +48,6 @@ function saveCode(value: string) {
   }
 }
 
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
-}
-
 function tokenClass(
   ts: typeof import("typescript"),
   token: import("typescript").SyntaxKind,
@@ -88,22 +80,34 @@ function highlighted(value: string) {
     typescript.LanguageVariant.JSX,
     value,
   );
-  const tokens: string[] = [];
+  const tokens: { className?: string; text: string }[] = [];
   for (
     let token = scanner.scan();
     token !== typescript.SyntaxKind.EndOfFileToken;
     token = scanner.scan()
   ) {
-    const text = escapeHtml(scanner.getTokenText());
+    const text = scanner.getTokenText();
     const className = tokenClass(typescript, token);
-    tokens.push(className ? `<span class="${className}">${text}</span>` : text);
+    tokens.push({ className, text });
   }
-  return tokens.join("");
+  return tokens;
 }
 
 function syncEditor() {
   if (!editor.value || !highlight.value) return;
-  highlight.value.innerHTML = `${highlighted(code.value)}\n`;
+  const content = document.createDocumentFragment();
+  for (const token of highlighted(code.value)) {
+    if (!token.className) {
+      content.append(token.text);
+      continue;
+    }
+    const span = document.createElement("span");
+    span.className = token.className;
+    span.textContent = token.text;
+    content.append(span);
+  }
+  content.append("\n");
+  highlight.value.replaceChildren(content);
   highlight.value.scrollTop = editor.value.scrollTop;
   highlight.value.scrollLeft = editor.value.scrollLeft;
 }
