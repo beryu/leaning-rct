@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import * as typescript from "typescript";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 
 const props = defineProps<{
@@ -16,7 +17,6 @@ const isRunning = ref(false);
 const saveState = ref<SaveState>("saved");
 const editor = ref<HTMLTextAreaElement>();
 const highlight = ref<HTMLElement>();
-let typescript: typeof import("typescript") | undefined;
 const localStorageKey = computed(
   () => `leaning-rct:exercise:v1:${props.storageKey}`,
 );
@@ -82,8 +82,6 @@ function tokenClass(
 }
 
 function highlighted(value: string) {
-  if (!typescript) return escapeHtml(value);
-
   const scanner = typescript.createScanner(
     typescript.ScriptTarget.Latest,
     false,
@@ -118,10 +116,6 @@ onMounted(() => {
   }
   isReady.value = true;
   void nextTick(syncEditor);
-  void import("typescript").then((module) => {
-    typescript = module;
-    syncEditor();
-  });
 });
 
 watch(code, (value) => {
@@ -151,19 +145,19 @@ function createPreview(source: string) {
 async function run() {
   isRunning.value = true;
   try {
-    const ts = await import("typescript");
-    const result = ts.transpileModule(code.value, {
+    const result = typescript.transpileModule(code.value, {
       compilerOptions: {
-        target: ts.ScriptTarget.ES2022,
-        module: ts.ModuleKind.None,
-        jsx: ts.JsxEmit.React,
+        target: typescript.ScriptTarget.ES2022,
+        module: typescript.ModuleKind.None,
+        jsx: typescript.JsxEmit.React,
         jsxFactory: "createElement",
         jsxFragmentFactory: "Fragment",
       },
       reportDiagnostics: true,
     });
     const errors = (result.diagnostics ?? []).filter(
-      (diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error,
+      (diagnostic) =>
+        diagnostic.category === typescript.DiagnosticCategory.Error,
     );
     const source = errors.length
       ? `throw new Error(${JSON.stringify(
@@ -172,7 +166,7 @@ async function run() {
               const line = diagnostic.file?.getLineAndCharacterOfPosition(
                 diagnostic.start ?? 0,
               ).line;
-              return `行${(line ?? 0) + 1}: ${ts.flattenDiagnosticMessageText(diagnostic.messageText, "\\n")}`;
+              return `行${(line ?? 0) + 1}: ${typescript.flattenDiagnosticMessageText(diagnostic.messageText, "\\n")}`;
             })
             .join("\\n"),
         )})`
