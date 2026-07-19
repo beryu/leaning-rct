@@ -52,6 +52,34 @@ test("演習は章ごとに保存・復元でき、リセットできる", async
   await expect(editor).toHaveValue(/TODO/);
 });
 
+test("サイドバーを折りたたむとコンテンツがウィンドウ幅まで広がる", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("20-jsx");
+
+  const content = page.locator(".VPContent");
+  const sidebar = page.locator(".VPSidebar");
+  const exercise = page.locator(".browser-exercise");
+  const expandedWidth = await exercise.evaluate(
+    (element) => element.getBoundingClientRect().width,
+  );
+
+  await page.getByRole("button", { name: "サイドバーを折りたたむ" }).click();
+  await expect(sidebar).toBeHidden();
+  await expect(content).toHaveCSS("padding-left", "0px");
+  await expect
+    .poll(() =>
+      exercise.evaluate((element) => element.getBoundingClientRect().width),
+    )
+    .toBeGreaterThan(expandedWidth);
+
+  await page.reload();
+  await expect(sidebar).toBeHidden();
+  await page.getByRole("button", { name: "サイドバーを展開する" }).click();
+  await expect(sidebar).toBeVisible();
+});
+
 test("エラー表示、行番号、ハイライト、ショートカットを備える", async ({
   page,
 }) => {
